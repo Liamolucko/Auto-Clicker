@@ -1,22 +1,30 @@
 ﻿<Page
-    x:Class="Auto_Clicker.MainPage"
+    x:Class="AutoClicker.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Auto_Clicker"
+    xmlns:local="using:AutoClicker"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <RelativePanel>
-        <StackPanel Orientation="Vertical" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignTopWithPanel="True" Spacing="12">
-            <TextBlock Text="Click Interval" Style="{StaticResource TitleTextBlockStyle}" />
-            <StackPanel Orientation="Horizontal">
-                <muxc:NumberBox x:Name="Hours" Header="Hours" Value="0" Grid.Column="0" />
-                <muxc:NumberBox x:Name="Minutes" Header="Minutes" Value="0" ValueChanged="HandleOverflows" />
-                <muxc:NumberBox x:Name="Seconds" Header="Seconds" Value="0" ValueChanged="HandleOverflows" />
-                <muxc:NumberBox x:Name="Milliseconds" Header="Milliseconds" Value="100" ValueChanged="HandleOverflows" />
-            </StackPanel>
-        </StackPanel>
+    <RelativePanel Padding="32, 16">
+        <Grid x:Name="PreferenceGrid" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" MinWidth="250" MaxWidth="700">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <controls:DockPanel Grid.Row="0" Grid.ColumnSpan="2" LastChildFill="True">
+                <TextBlock Text="Click Interval" Style="{StaticResource SubtitleTextBlockStyle}" controls:DockPanel.Dock="Top" />
+                <ComboBox x:Name="UnitBox" SelectedValue="{x:Bind ViewModel.Units, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.ControlsEnabled, Mode=OneWay}" controls:DockPanel.Dock="Right" VerticalAlignment="Bottom" MinWidth="121">
+                    <x:String>Seconds</x:String>
+                    <x:String>Milliseconds</x:String>
+                </ComboBox>
+                <muxc:NumberBox x:Name="ClickIntervalBox" Value="{x:Bind ViewModel.ClickInterval, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.ControlsEnabled, Mode=OneWay}" ValidationMode="InvalidInputOverwritten" controls:DockPanel.Dock="Right"/>
+                <Slider x:Name="ClickIntervalSlider" Value="{x:Bind ViewModel.ClickInterval, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.ControlsEnabled, Mode=OneWay}" Minimum="{x:Bind ViewModel.MinimumClickInterval, Mode=OneWay}" Maximum="{x:Bind ViewModel.MaximumClickInterval, Mode=OneWay}" StepFrequency="{x:Bind ViewModel.ClickIntervalStepFrequency, Mode=OneWay}" controls:DockPanel.Dock="Left" VerticalAlignment="Bottom" Margin="0,0,12,0" />
+            </controls:DockPanel>
+        </Grid>
+        <ToggleButton Content="Click" Style="{StaticResource ToggleButtonRevealStyle}" Click="ClickingToggled" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.Below="PreferenceGrid" RelativePanel.AlignBottomWithPanel="True" />
     </RelativePanel>
 </Page>

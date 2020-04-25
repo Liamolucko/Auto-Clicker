@@ -4,7 +4,8 @@
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  IgnorableNamespaces="uap mp">
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap mp rescap">
 
   <Identity
     Name="d91e98eb-30d6-4623-bb50-7e889976983c"
@@ -30,7 +31,7 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="Auto_Clicker.App">
+      EntryPoint="AutoClicker.App">
       <uap:VisualElements
         DisplayName="Auto Clicker"
         Square150x150Logo="Assets\Square150x150Logo.png"
@@ -42,4 +43,8 @@
       </uap:VisualElements>
     </Application>
   </Applications>
+
+  <Capabilities>
+    <rescap:Capability Name="inputInjectionBrokered" />
+  </Capabilities>
 </Package>

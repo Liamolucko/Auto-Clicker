@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace Auto_Clicker
+namespace AutoClicker
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
@@ -28,8 +28,8 @@ namespace Auto_Clicker
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            InitializeComponent();
+            Suspending += OnSuspending;
         }
 
         /// <summary>
@@ -39,6 +39,9 @@ namespace Auto_Clicker
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            clicker = new Clicker();
+            viewModel = new ViewModel(clicker);
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -71,6 +74,12 @@ namespace Auto_Clicker
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+
+            if (rootFrame.CurrentSourcePageType == typeof(MainPage))
+            {
+                MainPage page = (MainPage)rootFrame.Content;
+                page.ViewModel = viewModel;
+            }
         }
 
         /// <summary>
@@ -96,5 +105,9 @@ namespace Auto_Clicker
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+        private Clicker clicker;
+
+        private ViewModel viewModel;
     }
 }
